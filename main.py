@@ -14,7 +14,7 @@ touch = TouchIn(D1)
 
 # NeoPixel strip (of 16 LEDs) connected on D3
 NUMPIXELS = 25
-neopixels = neopixel.NeoPixel(D3, NUMPIXELS, brightness=.125, auto_write=True)
+neopixels = neopixel.NeoPixel(D3, NUMPIXELS, brightness=.1, auto_write=True)
 DIRECTION = 1 # 1 == "up"
 COLOR = 1 # 1 == "red"
 MAXLITPIXELS = 10
@@ -22,16 +22,17 @@ CURLITPIXELS = 0
 
 # COLORS
 RED = (255, 0, 0)
-DARKRED = (127,0,0)
-ORANGE = (255,165,0)
+DARKRED = (127, 0, 0)
+ORANGE = (255, 165, 0)
 DARKORANGE = (127, 83, 0)
 WHITE = (125, 125, 125)
-BLUE = (0,0,255)
+BLUE = (0, 0, 255)
 PURPLE = (180, 0, 255)
 GREEN = (0, 255, 0)
 DARKGREEN = (0, 127, 0)
+BLACK = (0, 0, 0)
 
-COLORPALLET = [RED, DARKRED, RED, DARKRED, RED, DARKRED, GREEN, DARKGREEN, GREEN, DARKGREEN, GREEN, DARKGREEN, GREEN]
+COLORPALLET = [WHITE, RED, GREEN, RED, WHITE, RED, GREEN, GREEN, WHITE, RED, GREEN, RED, WHITE]
 ######################### HELPERS ##############################
 
 # Helper to convert analog input to voltage
@@ -86,9 +87,6 @@ def whitePulse():
     time.sleep(.0125)
     for p in range(NUMPIXELS):
         neopixels[p] = (0, 0, 0)
-
-
-
 
 def chase(chaseColor):
     inverseChaseColor = chaseColor
@@ -145,9 +143,11 @@ i = 0;
 curLitPixels = 0
 while True:
     if touch.value:
-        neopixels.fill((0, 0, 0))
-        flicker(random.randint(0, (NUMPIXELS-1)),(255, 255, 255))
+        neopixels.brightness = 1
+        neopixels.fill(BLACK)
+        flicker(random.randint(0, (NUMPIXELS-1)),(WHITE))
     else:
+        neopixels.brightness = .1
         ## How many pixels are currently lit?
         curLitPixels = 0
         for x in range (NUMPIXELS):
