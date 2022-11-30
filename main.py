@@ -13,11 +13,11 @@ import random
 touch = TouchIn(D1)
 
 # NeoPixel strip (of 16 LEDs) connected on D3
-NUMPIXELS = 22
+NUMPIXELS = 25
 neopixels = neopixel.NeoPixel(D3, NUMPIXELS, brightness=.125, auto_write=True)
 DIRECTION = 1 # 1 == "up"
 COLOR = 1 # 1 == "red"
-MAXLITPIXELS = 22
+MAXLITPIXELS = 25
 CURLITPIXELS = 0
 
 # COLORS
@@ -79,16 +79,14 @@ def redPulse():
         neopixels.fill((rCur - 10, gCur, bCur))
 
 def whitePulse():
-    aPixel = neopixels[0]
-    rCur = aPixel[0]
-    gCur = aPixel[1]
-    bCur = aPixel[2]
+    for p in range(NUMPIXELS):
+        neopixels[p] = (255, 255, 255)
+    time.sleep(.0125)
+    for p in range(NUMPIXELS):
+        neopixels[p] = (0, 0, 0)
 
-    if DIRECTION == 1:
-        neopixels.fill((rCur + 10, gCur + 10, bCur + 10))
 
-    if DIRECTION == 2:
-        neopixels.fill((rCur - 10, gCur - 10, bCur - 10))
+
 
 def chase(chaseColor):
     inverseChaseColor = chaseColor
@@ -158,6 +156,6 @@ while True:
 
     ## for each pixel, step it down
     dimmer()
-
+    ## whitePulse()
 
 
